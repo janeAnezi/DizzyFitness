@@ -16,7 +16,7 @@ const NavBar = () => {
   };
 
   return (
-    <nav className="w-screen h-14 grid place-items-center fixed top-0 left-0 z-10 border-b-4 backdrop-blur-sm">
+    <nav className="text-slate-50 w-screen h-14 grid place-items-center fixed top-0 left-0 z-10 border-b-4 backdrop-blur-sm">
       <div className="container mx-auto flex justify-between items-center h-full px-4">
         <Link to="/" className="block w-[100px]" onClick={closeNavHandler}>
             <p className='text-xs text-slate-500 flex items-center'>  

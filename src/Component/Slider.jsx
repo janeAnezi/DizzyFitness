@@ -60,7 +60,7 @@ const Slider = () => {
              key={slideIndex}
              onClick={() => setCurrIndex(slideIndex)}
              className={`text-2xl cursor-pointer ${
-               slideIndex === currIndex ? "text-gray-50" : "text-slate-500"
+               slideIndex === currIndex ? "text-gray-50" : "text-slate-800"
              }`}
            >
               <GoDotFill className="text-slate-500" />

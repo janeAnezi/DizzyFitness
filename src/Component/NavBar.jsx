@@ -34,7 +34,7 @@ const NavBar = () => {
             isNavOpen ? 'flex' : 'hidden'
           } flex-col md:flex md:flex-row items-center text-xs gap-6 absolute md:static top-20 left-0 w-full md:w-auto bg-white md:bg-transparent p-4 md:p-0 shadow-md md:shadow-none z-20`}
         >
-          <li><Link to="/" onClick={closeNavHandler}>HOME</Link></li>
+          <li><Link to="/home" onClick={closeNavHandler}>HOME</Link></li>
           <li><Link to="/products" onClick={closeNavHandler}>PRODUCTS</Link></li>
           <li><Link to="/services" onClick={closeNavHandler}>SERVICES</Link></li>
           <li><Link to="/about" onClick={closeNavHandler}>ABOUT</Link></li>

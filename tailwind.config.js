@@ -1,12 +1,14 @@
-/** @type {import('tailwindcss').Config} */
-export default {
-  content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}"
-  ],
+module.exports = {
+  content: ['./src/**/*.{js,jsx,ts,tsx}'], // Update your content paths as needed
   theme: {
-    extend: {},
+    extend: {
+      animation:{
+        'bounce-few' : 'bounce 0.5s ease-in-out 3'
+      },
+    },
   },
-  plugins: [],
-}
-
+  plugins: [
+    require('tailwind-scrollbar-hide'),
+    require('tailwind-scrollbar'),
+  ],
+};

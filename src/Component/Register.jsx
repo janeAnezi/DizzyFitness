@@ -13,7 +13,7 @@ const Register = () => {
   const handleRegister = async (e) => {
     e.preventDefault();
 
-    // Client-side validation
+    
     if (!username.trim() || !email.trim() || !password.trim()) {
       setError('All fields are required.');
       return;

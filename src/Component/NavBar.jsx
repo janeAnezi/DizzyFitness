@@ -9,10 +9,10 @@ import { useNavigate } from 'react-router-dom';
 
 const NavBar = () => {
   const navigate = useNavigate();
-  const location = useLocation();  // Get current route
+  const location = useLocation(); 
   const { totalQuantity } = useSelector((state) => state.cart);
   const [isNavOpen, setIsNavOpen] = useState(false); 
-  const token = localStorage.getItem('token');  // Check if token exists
+  const token = localStorage.getItem('token');  
   const cartItems = useSelector(state => state.cart.cart);
 
   const toggleNavHandler = () => {
@@ -24,8 +24,8 @@ const NavBar = () => {
   };
 
   const logoutHandler = () => {
-    localStorage.removeItem('token');  // Remove JWT token
-    navigate('/');  // Redirect to homepage without page reload
+    localStorage.removeItem('token');  
+    navigate('/');  
   };
 
   // Helper function to apply active class

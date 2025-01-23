@@ -35,7 +35,7 @@ function Footer() {
   return (
    <div className='py-[90px] bg-black '>
      <div className=" text-white flex flex-col md:flex-row items-center justify-between">
-      {/* Branding Section */}
+    
       <div className="text-center md:text-left px-9 ">
         <p className="text-5xl md:text-2xl pb-9  md:py-2 cursor-pointer text-slate-500 flex items-center">
           DIZZY <IoPulseSharp className="text-2xl text-yellow-900" />
@@ -47,7 +47,7 @@ function Footer() {
         </div>
       </div>
 
-      {/* Contact Dropdown */}
+     
       <div className="mt-10 md:mt-0">
         <ContactDropdown />
       </div>

@@ -102,7 +102,6 @@ const Products = () => {
         setEquipment(data);
         console.log('Cart Data:', data);
   
-        // Apply price filter to the new data
         const filtered = data.filter(equipment => {
           const equipmentPrice = Number(equipment.price.replace(/,/g, ''));
           return equipmentPrice <= selectedPrice;

@@ -32,7 +32,7 @@ const NavBar = () => {
   const getNavLinkClass = (path) => (
     location.pathname === path 
       ? 'text-blue-900 border-b-2 border-blue-900 transform transition-300' 
-      : 'text-slate-400'
+      : 'text-gray-600'
   );
 
   return (
@@ -52,7 +52,7 @@ const NavBar = () => {
         <ul
           className={`${
             isNavOpen ? 'flex' : 'hidden'
-          } flex-col md:flex md:flex-row items-center text-xs gap-6 absolute md:static top-20 left-0 w-full md:w-auto bg-white md:bg-transparent p-4 md:p-0 shadow-md md:shadow-none z-20`}
+          } flex-col md:flex md:flex-row items-center text-xs gap-6 absolute md:static top-20 left-0 w-full md:w-auto  bg-white md:bg-transparent p-4 md:p-0 shadow-md md:shadow-none z-50`}
         >
           <li><Link to="/home" className={getNavLinkClass('/home')} onClick={closeNavHandler}>HOME</Link></li>
           <li><Link to="/products" className={getNavLinkClass('/products')} onClick={closeNavHandler}>PRODUCTS</Link></li>
@@ -60,6 +60,7 @@ const NavBar = () => {
           <li><Link to="/about" className={getNavLinkClass('/about')} onClick={closeNavHandler}>ABOUT</Link></li>
           <li><Link to="/benefits" className={getNavLinkClass('/benefits')} onClick={closeNavHandler}>BENEFITS</Link></li>
           <li><Link to="/freetips" className={getNavLinkClass('/freetips')} onClick={closeNavHandler}>FREE-TIPS</Link></li>
+          <li className='md:hidden text-lg -mt-2' ><Link to='/register' className={getNavLinkClass('/register')} onClick={closeNavHandler}>Join</Link></li>
         </ul>
         
         <div className=' flex gap-3 mx-3' >

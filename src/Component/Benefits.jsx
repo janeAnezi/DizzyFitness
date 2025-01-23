@@ -12,7 +12,7 @@ const Benefits = () => {
                 </div>
 
                 <div className="pb-[90px]">
-                    <h1 className="text-center items-center pt-[70px] font-bold text-5xl text-black">BENEFITS</h1>
+                    <h1 className="text-center items-center font-bold text-5xl text-black">BENEFITS</h1>
                 </div>
                 </div>
 

@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useToast } from './Toast'
 
 const LogIn = () => {
+
+  const showToast = useToast();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -22,7 +25,8 @@ const LogIn = () => {
     try {
       const response = await axios.post('http://localhost:5000/api/login', { email, password });
       if (response.status === 200) {
-        alert('Login Successful');
+         localStorage.setItem('token', response.data.token);
+         showToast('Login Succesful');
         navigate('/'); 
       }
     } catch (err) {
@@ -32,6 +36,12 @@ const LogIn = () => {
       setIsLoading(false);
     }
   };
+
+
+
+
+
+
 
   return (
     <div

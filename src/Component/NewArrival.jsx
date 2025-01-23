@@ -2,12 +2,17 @@ import React, { useState } from 'react';
 import Cards from './Cards';
 import Eyes from './Eyes';
 import { FaCaretRight } from "react-icons/fa";
+import { useDispatch } from 'react-redux';
+import { addToCart } from './redux/cartSlice';
+import { useToast } from './Toast'
 
 
 
 
 
 function NewArrival({ selectedCategory = null, equipments = [] }) {
+  const showToast = useToast();
+  const dispatch = useDispatch();
   const [translateX, setTranslateX] = useState(0);
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const [modalIndex, setModalIndex] = useState(null);
@@ -71,7 +76,7 @@ function NewArrival({ selectedCategory = null, equipments = [] }) {
                     alt={`Image for ${equipment.title}`}
                   />
                   <div className="text-gray-950 mb-0 pb-0 text-center">
-                    <h1>{equipment.title}</h1>
+                    <h1 className='whitespace-normal'>{equipment.title}</h1>
                     <p className="line-through">{equipment.discount}</p>
                     <p>₦{equipment.price}</p>
 
@@ -97,6 +102,16 @@ function NewArrival({ selectedCategory = null, equipments = [] }) {
 
                   {/* Add to Cart Button */}
                   <button
+                   onClick={() => {dispatch(addToCart({
+                    id: equipment.id,
+                    image: equipment.image,
+                    title: equipment.title, 
+                    discount: equipment.discount,
+                    price: equipment.price,
+                    quantity: 1
+                     }))
+                     showToast(equipment.title);
+                     }}
                     className={`bg-blue-800 text-white w-[100%] duration-500 transition-transform ${
                       hoveredIndex === index ? "block" : "hidden"
                     }`}

@@ -37,16 +37,18 @@
 import './App.css'
 import LayOut from './Component/LayOut'
 
-
-
-export default function App() {
+const App = () => {
+  
   return (
-    <>
+    <div>
      <LayOut/>
+    </div>
+  );
+};
 
-    </>
-  )
-}
+export default App;
+
+
 
 
 

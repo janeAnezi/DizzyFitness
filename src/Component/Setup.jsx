@@ -14,7 +14,7 @@ function Setup() {
         <div className='grid grid-cols-1 gap-10  lg:grid-cols-2  overflow-hidden '>
             <div className='relative text-white hover:scale-105 transition-transform duration-200 ease-in-out h-[400px] overflow-hidden'>
                 <img src="https://sportandfitnessinc.com/wp-content/uploads/2017/12/IMG_2168.jpg" alt="/" className='h-[100%] w-full' />
-                <div className='absolute top-[40%] transform translate-x-7  lg:translate-x-15 '>
+                <div className='absolute top-[40%] transform md:translate-x-7  lg:translate-x-15 '>
                     <p className='text-sm font-semibold'>HOME GYM SETUPS</p>
                     <h3 className='text-5xl lg:text-4xl font-bold py-2'>TAILORED FOR YOU</h3>
 
@@ -23,9 +23,9 @@ function Setup() {
             </div>
             <div className='relative text-white hover:scale-105 transition-transform duration-200 ease-in-out overflow-hidden h-[400px] ' >
                 <Link to ='/'><img src="https://seampublishing.com/wp-content/uploads/2024/10/rubber-floor-690x500.jpg" alt="/" className='h-[100%] w-full' /></Link>
-                <div className='absolute top-[40%] transform translate-x-7  lg:translate-x-15'>
+                <div className='absolute top-[40%] transform md:translate-x-7  lg:translate-x-15'>
                     <p className='text-sm font-semibold'>commercial gyms, corporate fitness centers</p>
-                    <h3 className='text-5xl lg:text-4xl font-bold py-2'>COMPLETE GYM SETUP</h3>
+                    <h3 className='text-5xl lg:text-4xl font-bold py-2 '>COMPLETE GYM SETUP</h3>
 
                     <Link to='/'> <button className='flex items-center gap-2 my-9 bg-white py-3 px-6 text-gray-700'>Learn More <FaArrowRightLong/></button></Link>
                  </div>

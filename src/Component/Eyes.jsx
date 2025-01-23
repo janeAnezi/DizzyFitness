@@ -1,33 +1,38 @@
 import React, { useEffect, useState } from 'react';
 import { CiShoppingCart } from "react-icons/ci";
+import { useDispatch } from 'react-redux';
+import { addToCart } from './redux/cartSlice'; 
 
 function Eyes({ isOpen, onClose, selectedEquipment }) {
-  const [quantity, setQuantity] = useState(1); 
+  const [quantity, setQuantity] = useState(1);
+  const [scrollY, setScrollY] = useState(0); // Store scroll position when modal opens
 
   useEffect(() => {
     if (isOpen) {
-      document.body.style.overflow = 'hidden';
       const scrollY = window.scrollY;
+      document.body.style.overflow = 'hidden';
       document.body.style.position = 'fixed';
-      document.body.style.top = `-${scrollY}px`;
+      document.body.style.top = -scrollY + 'px';
       document.body.style.width = '100%';
     } else {
-      const scrollY = document.body.style.top;
+      const scrollY = parseInt(document.body.style.top.replace('-', ''));
       document.body.style.position = '';
       document.body.style.top = '';
       document.body.style.overflow = '';
       document.body.style.width = '';
-      if (scrollY) {
-        window.scrollTo(0, parseInt(scrollY.replace('-', '')));
-      }
+      window.scrollTo(0, scrollY);
     }
-
+  
     return () => {
       document.body.style.overflow = '';
       document.body.style.position = '';
       document.body.style.width = '';
     };
   }, [isOpen]);
+
+
+
+
 
   if (!isOpen || !selectedEquipment) {
     return null;
@@ -43,9 +48,18 @@ function Eyes({ isOpen, onClose, selectedEquipment }) {
     setQuantity((prev) => (prev < 10 ? prev + 1 : 10)); // Ensure it doesn't exceed 10
   };
 
+  const dispatch = useDispatch();
+
+  const handleAddToCart = () => {
+    dispatch(addToCart(selectedEquipment)); // Dispatch addToCart thunk with product data
+  };
+
+
+
+
   return (
     <div
-      className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 "
+      className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50"
       style={{ zIndex: 1050 }}
     >
       <div className="bg-white text-center p-5 max-h-[90vh] overflow-y-auto w-[90%] z-50 rounded shadow-xl">
@@ -99,7 +113,7 @@ function Eyes({ isOpen, onClose, selectedEquipment }) {
                 </div>
 
                 <div>
-                  <button className="text-white w-full py-2 bg-blue-700 flex items-center justify-center gap-2">
+                  <button className="text-white w-full py-2 bg-blue-700 flex items-center justify-center gap-2" onClick={handleAddToCart}>
                     ADD TO CART 
                     <CiShoppingCart className="text-2xl" />
                   </button>

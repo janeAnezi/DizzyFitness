@@ -1,6 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { addToCart } from './redux/cartSlice';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import { useToast } from './Toast'
 
 const Loader = () => (
   <div className="fixed inset-0 bg-white bg-opacity-90 z-50 flex justify-center items-center">
@@ -11,15 +14,18 @@ const Loader = () => (
   </div>
 );
 
+
+
 const Products = () => {
+   const showToast = useToast();
+  const dispatch = useDispatch();
   const [equipments, setEquipment] = useState([]);
   const [filteredEquipments, setFilteredEquipments] = useState([]);
   const [activeCategory, setActiveCategory] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [selectedPrice, setSelectedPrice] = useState(1650000); // Start with highest price
+  const [selectedPrice, setSelectedPrice] = useState(1650000);
 
-  // Define the available price points
   const pricePoints = [
     6500,
     12000,
@@ -36,24 +42,6 @@ const Products = () => {
     1650000
   ].sort((a, b) => a - b);
 
-  const handleCategoryChange = (category) => {
-    setSelectedCategory(category);
-    setActiveCategory(category);
-  };
-
-  const handlePriceChange = (event) => {
-    const value = Number(event.target.value);
-    setSelectedPrice(value);
-    
-    
-    const filtered = equipments.filter(equipment => {
-      const equipmentPrice = Number(equipment.price.replace(/,/g, ''));
-      return equipmentPrice <= value;
-    });
-    
-    setFilteredEquipments(filtered);
-  };
-
   const categories = [
     'Accessories',
     'Functional-fitness',
@@ -63,19 +51,63 @@ const Products = () => {
     'Cardio-Machines',
   ];
 
+  const handleCategoryChange = (category) => {
+    setSelectedCategory(category);
+    setActiveCategory(category);
+  };
+
+  const handlePriceChange = (event) => {
+    const value = Number(event.target.value);
+    setSelectedPrice(value);
+    
+    const filtered = equipments.filter(equipment => {
+      const equipmentPrice = Number(equipment.price.replace(/,/g, ''));
+      return equipmentPrice <= value;
+    });
+    
+    setFilteredEquipments(filtered);
+  };
+
   useEffect(() => {
     async function fetchFitness() {
       setLoading(true);
       let url = 'http://localhost:5000/fitness';
+      
+      
+      const token = localStorage.getItem('token');
+      if (!token) {
+        showToast('Please log in to view products.');
+        setLoading(false);
+        return;
+      }
+  
       if (selectedCategory) {
+     
         url += `?category=${selectedCategory}`;
       }
-
+  
       try {
-        const response = await fetch(url);
+        const response = await fetch(url, {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`,  
+          },
+        });
+  
+        if (!response.ok) {
+          throw new Error('Failed to fetch data');
+        }
+        
         const data = await response.json();
         setEquipment(data);
-        setFilteredEquipments(data);
+        console.log('Cart Data:', data);
+  
+        // Apply price filter to the new data
+        const filtered = data.filter(equipment => {
+          const equipmentPrice = Number(equipment.price.replace(/,/g, ''));
+          return equipmentPrice <= selectedPrice;
+        });
+        setFilteredEquipments(filtered);
       } catch (error) {
         console.error('Error fetching data:', error);
       } finally {
@@ -84,10 +116,10 @@ const Products = () => {
         }, 700);
       }
     }
-
+  
     fetchFitness();
-  }, [selectedCategory]);
-
+  }, [selectedCategory, selectedPrice]);
+  
 
   useEffect(() => {
     AOS.init({
@@ -95,57 +127,59 @@ const Products = () => {
       easing: 'ease-in-out',
       once: true,
     });
-  
     
     AOS.refresh();
   }, [filteredEquipments]);
+
+ 
   
 
   return (
-    <>
+    <div className="container mx-auto">
       {loading && <Loader />}
       <div className="mt-[140px] mb-[50px]">
         <h1 className="text-5xl font-bold text-center mb-[70px]">
           {activeCategory || 'All Categories'}
         </h1>
-        <div className="grid grid-cols-2 md:grid-cols-4">
-          <div className="px-4 mb-8 lg:space-x-14 border-b-2 py-5 text-gray-900 font-semibold">
-            <label className="mr-4 flex items-center space-x-2">
-              <input
-                type="radio"
-                name="category"
-                value=""
-                checked={!activeCategory}
-                onChange={() => handleCategoryChange(null)}
-                className="mr-2"
-              />
-              <span className={!activeCategory ? 'text-blue-500' : ''}>
-                All
-              </span>
-            </label>
-
-            {categories.map((category) => (
-              <label key={category} className="mr-4 py-2 flex items-center space-x-2">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+          {/* Filters Section */}
+          <div className="px-4 mb-8 space-y-6 border-b-2 py-5">
+            <div className="space-y-4">
+              <label className="flex items-center space-x-2">
                 <input
                   type="radio"
                   name="category"
-                  value={category}
-                  checked={activeCategory === category}
-                  onChange={() => handleCategoryChange(category)}
-                  className="mr-2 "
+                  value=""
+                  checked={!activeCategory}
+                  onChange={() => handleCategoryChange(null)}
+                  className="text-blue-500"
                 />
-                <span
-                  className={
-                    activeCategory === category ? 'text-blue-500' : ''
-                  }
-                >
-                  {category}
+                <span className={`font-semibold ${!activeCategory ? 'text-blue-500' : 'text-gray-900'}`}>
+                  All
                 </span>
               </label>
-            ))}
 
-            <div className='py-5 space-y-2'>
-              <p className="text-blue-500 font-medium">Price Range: ₦{selectedPrice.toLocaleString()}</p>
+              {categories.map((category) => (
+                <label key={category} className="flex items-center space-x-2">
+                  <input
+                    type="radio"
+                    name="category"
+                    value={category}
+                    checked={activeCategory === category}
+                    onChange={() => handleCategoryChange(category)}
+                    className="text-blue-500"
+                  />
+                  <span className={`font-semibold ${activeCategory === category ? 'text-blue-500' : 'text-gray-900'}`}>
+                    {category}
+                  </span>
+                </label>
+              ))}
+            </div>
+
+            <div className="space-y-4">
+              <p className="text-blue-500 font-medium">
+                Price Range: ₦{selectedPrice.toLocaleString()}
+              </p>
               <input 
                 type="range" 
                 min={pricePoints[0]} 
@@ -168,47 +202,67 @@ const Products = () => {
             </div>
           </div>
 
-          <div className="mt-10 col-span-3 mx-5">
-            <div className="pb-20">
-              <h1 className="text-2xl font-bold">
+          {/* Products Grid */}
+          <div className="col-span-1 md:col-span-3 px-4">
+            <div className="pb-10">
+              <h2 className="text-2xl font-bold">
                 {activeCategory || 'All Categories'}
-              </h1>
-              <p className="flex gap-2 py-3">
-                Home > <span>{activeCategory || 'All Categories'}</span>
+              </h2>
+              <p className="flex gap-2 py-3 text-gray-600">
+                Home &gt; <span>{activeCategory || 'All Categories'}</span>
               </p>
             </div>
 
-            <div  className="grid grid-cols-3 lg:grid-cols-4 gap-5">
-              {filteredEquipments.map((equipment, index) => (
-                <div data-aos='fade-up' 
-                
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {filteredEquipments.map((equipment) => (
+                <div
                   key={equipment.id}
-                  className="p-4 border rounded shadow-md bg-white"
+                  data-aos="fade-up"
+                  className="p-4 border rounded-lg shadow-md bg-white hover:shadow-lg transition-shadow duration-300"
                 >
                   <img
                     src={equipment.image}
-                    alt={equipment.name}
-                    className="w-[100%] h-[250px] object-cover"
+                    alt={equipment.title}
+                    className="w-full h-[250px] object-cover rounded-md"
                   />
-                  <h2 className="font-bold text-center text-gray-600">
-                    {equipment.title}
-                  </h2>
-                  <div className="flex gap-1 justify-center items-center text-gray-600 py-2 text-lg">
-                    <p className="line-through text-red-600">
-                      {equipment.discount}
-                    </p>
-                    <p>₦{equipment.price}</p>
+                  <div className="mt-4 space-y-3">
+                    <h3 className="font-bold text-center text-gray-800 line-clamp-2">
+                      {equipment.title}
+                    </h3>
+                    <div className="flex gap-2 justify-center items-center">
+                      {equipment.discount && (
+                        <p className="line-through text-red-600 text-sm">
+                          {equipment.discount}
+                        </p>
+                      )}
+                      <p className="text-lg font-semibold text-gray-900">
+                        ₦{equipment.price}
+                      </p>
+                    </div>
+                    <button onClick={() => {dispatch(addToCart({
+                      id: equipment.id,
+                      image: equipment.image,
+                      title: equipment.title, 
+                      discount: equipment.discount,
+                      price: equipment.price,
+                      quantity: 1
+                       }))
+                       showToast(equipment.title);
+                       }} className="w-full bg-black text-white py-3 px-6 text-sm font-bold transition-all duration-300 hover:bg-white hover:text-red-600 hover:border-2 hover:border-red-600">
+                      ADD TO CART
+                    </button>
                   </div>
-                  <button className="bg-black hover:border-2 font-bold text-white py-3 px-6 text-sm w-full my-2 hover:border-red-600 hover:text-red-600">
-                    ADD TO CART
-                  </button>
                 </div>
               ))}
             </div>
+
+
+
+
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

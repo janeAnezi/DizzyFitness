@@ -59,16 +59,7 @@ function Head() {
 
     return (
         <div className=''>
-            <div className="bg-white text-gray-500 pt-16">
-                <div className="cursor-pointer p-10">
-                    <Link to="/"> Home </Link>
-                    <span> &gt; </span>
-                    <Link to="/"> Home </Link>
-                </div>
-
-                <div className="pb-[120px]">
-                    <h1 className="text-center items-center pt-[100px] font-bold text-5xl text-black">HOME</h1>
-                </div>
+            <div className="bg-white text-gray-500 ">
 
                 <div className="relative w-screen h-[500px] overflow-hidden mb-10">
                     {items.map((item, index) => (

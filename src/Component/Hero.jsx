@@ -38,7 +38,7 @@ function Hero({ selectedCategory = null, equipments = [],  isOpen, onClose,  mod
                     alt={`Image for ${equipment.title}`}
                   />
                    <div className="bg-black    border-black mb-0 pb-0 h-16 flex flex-wrap items-center justify-center border-4">
-                   <h1 className=" mx-10 ">
+                   <h1 className=" mx-10 whitespace-normal ">
                    {equipment.title}
                  </h1>
                </div>

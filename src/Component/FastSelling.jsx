@@ -2,8 +2,13 @@ import React from 'react';
 import { FaPaw } from "react-icons/fa";
 import { FaChalkboardTeacher } from "react-icons/fa";
 import { FaPersonBooth } from "react-icons/fa6";
+import { useDispatch } from 'react-redux';
+import { addToCart } from './redux/cartSlice';
+import { useToast } from './Toast'
 
 function FastSelling() {
+    const dispatch = useDispatch();
+    const showToast = useToast();
   const cards = [
     {
       id: 1,
@@ -87,7 +92,18 @@ function FastSelling() {
                   {formatPrice(item.price.original)}
                 </span>
               </div>
-              <button className="bg-black text-red-600 w-full py-2 rounded-lg hover:border hover:border-red-600 hover:text-white cursor-pointer transition duration-300">
+              <button
+             onClick={() => {
+                dispatch(addToCart({
+                  id: item.id,
+                  image: item.image,
+                  title: item.title, 
+                  price: item.price.discount,
+                  quantity: 1
+                }));
+                showToast(item.title);
+              }}
+               className="bg-black text-red-600 w-full py-2 rounded-lg hover:border hover:border-red-600 hover:text-white cursor-pointer transition duration-300">
                 {item.btn}
               </button>
             </div>

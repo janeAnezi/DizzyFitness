@@ -1,7 +1,7 @@
 import React from 'react';
 import Cards from './Cards';
-import blog from '../assets/img/gallery/3-1.png'
-import blog2 from '../assets/img/gallery/6-1.png'
+import blog from '../assets/img/gallery/dez.png'
+import blog2 from '../assets/img/gallery/diz.png'
 import {  FaArrowRightLong } from 'react-icons/fa6';
 
 function Hero({ selectedCategory = null, equipments = [],  isOpen, onClose,  modalIndex  }) {
@@ -19,7 +19,7 @@ function Hero({ selectedCategory = null, equipments = [],  isOpen, onClose,  mod
     }`} >
       <div className="md:grid md:grid-cols-3 py-3 mx-8 pt-[100px]">
         <div>
-          <h2 className="font-bold text-4xl pb-4 w-[500px] md:w-full leading-snug">
+          <h2 className="font-bold text-3xl md:text-4xl pb-4 w-[400px] md:w-full leading-snug">
             DISCOVER OUR BEST SELLER CATEGORIES
           </h2>
         </div>

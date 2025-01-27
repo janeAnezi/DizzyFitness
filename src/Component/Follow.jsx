@@ -1,4 +1,5 @@
 import React from 'react'
+import one from '../assets/img/gallery/one.png'
 
 function Follow() {
   return (

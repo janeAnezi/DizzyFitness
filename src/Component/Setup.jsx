@@ -2,6 +2,7 @@ import React from 'react'
 import { FaArrowRightLong } from 'react-icons/fa6'
 import { Link } from 'react-router-dom'
 import img from '../assets/img/gallery/2-1.png'
+import img1 from '../assets/img/gallery/own.png'
 import { IoPulseSharp } from 'react-icons/io5';
 function Setup() {
   return (
@@ -13,7 +14,7 @@ function Setup() {
 
         <div className='grid grid-cols-1 gap-10  lg:grid-cols-2  overflow-hidden '>
             <div className='relative text-white hover:scale-105 transition-transform duration-200 ease-in-out h-[400px] overflow-hidden'>
-                <img src="https://sportandfitnessinc.com/wp-content/uploads/2017/12/IMG_2168.jpg" alt="/" className='h-[100%] w-full' />
+                <img src={img1} alt="/" className='h-[100%] w-full object-cover' />
                 <div className='absolute top-[40%] transform md:translate-x-7  lg:translate-x-15 '>
                     <p className='text-sm font-semibold'>HOME GYM SETUPS</p>
                     <h3 className='text-5xl lg:text-4xl font-bold py-2'>TAILORED FOR YOU</h3>
